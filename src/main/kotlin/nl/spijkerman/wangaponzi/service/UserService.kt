@@ -4,6 +4,7 @@ import nl.spijkerman.wangaponzi.model.Rate.Type.GREEN
 import nl.spijkerman.wangaponzi.model.Rate.Type.RED
 import nl.spijkerman.wangaponzi.model.User
 import org.springframework.stereotype.Service
+import java.time.LocalTime
 
 @Service
 class UserService(private val transactionService: TransactionService,
@@ -39,8 +40,9 @@ class UserService(private val transactionService: TransactionService,
             .filterIndexed { i, _ -> i < 5 }
 
     fun getTheoryTop5(): List<User> {
-        val redPrice = rateService.get(RED).current
-        val greenPrice = rateService.get(GREEN).current
+        val now = LocalTime.now()
+        val redPrice = rateService.get(RED, now).current
+        val greenPrice = rateService.get(GREEN, now).current
         return getAll().sortedByDescending { it.money + it.green * greenPrice + it.red * redPrice }
                 .filterIndexed { i, _ -> i < 5 }
     }

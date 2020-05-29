@@ -8,7 +8,6 @@ import java.time.Duration
 import java.time.LocalTime
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.math.roundToLong
 
 @Service
 class RateService(timeService: TimeService,
@@ -19,7 +18,7 @@ class RateService(timeService: TimeService,
     private val endTime = timeService.endTime
 
     fun get(type: Rate.Type,
-            moment: LocalTime = LocalTime.now()): Rate {
+            moment: LocalTime): Rate {
         val timePassed = timePassed(moment)
 
         val lines = javaClass.getResource("/static/${type.name}.rate").readText().split("\n")
