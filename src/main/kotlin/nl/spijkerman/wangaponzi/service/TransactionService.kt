@@ -13,10 +13,9 @@ import com.google.api.client.util.store.FileDataStoreFactory
 import com.google.api.services.sheets.v4.Sheets
 import com.google.api.services.sheets.v4.SheetsScopes
 import com.google.api.services.sheets.v4.model.ValueRange
-import nl.spijkerman.wangaponzi.model.Rate
+import nl.spijkerman.wangaponzi.model.*
 import nl.spijkerman.wangaponzi.model.Rate.Type.GREEN
 import nl.spijkerman.wangaponzi.model.Rate.Type.RED
-import nl.spijkerman.wangaponzi.model.Transaction
 import org.springframework.stereotype.Service
 import java.io.*
 import java.lang.System.currentTimeMillis
@@ -96,21 +95,21 @@ class TransactionService(private val rateService: RateService) {
                 fun profit(type: Rate.Type): Double = amount * rateService.get(type, moment).current
 
                 when (it[2].toString()) {
-                    "Ontvangen Wanguldens" ->
+                    PAYED ->
                         money += amount
-                    "Kopen Rood" -> {
+                    BUY_RED -> {
                         red += amount
                         money -= profit(RED)
                     }
-                    "Kopen Groen" -> {
+                    BUY_GREEN -> {
                         green += amount
                         money -= profit(GREEN)
                     }
-                    "Verkopen Rood" -> {
+                    SELL_RED -> {
                         red -= amount
                         money += profit(RED)
                     }
-                    "Verkopen Groen" -> {
+                    SELL_GREEN -> {
                         green -= amount
                         money += profit(GREEN)
                     }

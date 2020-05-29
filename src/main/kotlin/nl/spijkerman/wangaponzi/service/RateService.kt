@@ -27,7 +27,7 @@ class RateService(timeService: TimeService,
         val limit = lines.size * timePassed
         val tickSeconds: Double = Duration.between(startTime, endTime).seconds.toDouble() / lines.size
 
-        fun scale(input: String) = (type.scale(exchangeMin, exchangeMax, input.trim().toDouble()) * 10).roundToLong() / 10.0
+        fun scale(input: String) = type.scale(exchangeMin, exchangeMax, input.trim().toDouble())
 
         val history = lines.filterIndexed { index, _ -> index <= limit }
                 .map(::scale)
