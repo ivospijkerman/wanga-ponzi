@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Wanga Ponzi</title>
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: sans-serif;
+        }
+
+        p {
+            margin-left: 20px;
+            text-align: left;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto 15% 15% auto;
+            grid-gap: 10px;
+            padding: 10px;
+        }
+
+        .grid-container > div {
+            background-color: #bfbebe;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .item1 {
+            grid-row-start: 1;
+            grid-row-end: 3;
+        }
+
+        .green {
+            font-size: 100px;
+            color: #ab000d;
+        }
+
+        .red {
+            font-size: 100px;
+            color: #418000;
+        }
+
+        .item5 {
+            grid-column-start: 2;
+            grid-column-end: 4;
+        }
+    </style>
+</head>
+<body>
+<div class="grid-container">
+    <div class="item1">
+    </div>
+    <div class="item2">2</div>
+    <div class="item3">3</div>
+    <div class="item4">4</div>
+    <div class="item5">5</div>
+    <div class="item6">6</div>
+</div>
+</body>
+<script>
+
+    function drawUser(user) {
+        const name = user['name'];
+        const money = (Math.round(user['money'] * 100) / 100).toFixed(2);
+        const red = `<span style="color: #ab000d">${user['red']}</span>`;
+        const green = `<span style="color: #418000">${user['green']}</span>`;
+        return `${name} - ${money} / ${red} / ${green}<br>`;
+    }
+
+    function drawUsers(header, users) {
+        let result = "<h1>" + header + "</h1><p>"
+        for (let user in users) {
+            result += drawUser(users[user])
+        }
+        result += "</p>"
+        return result
+    }
+
+    function draw() {
+        $.getJSON('http://localhost:8080/', data => {
+            // Draw all users
+            $('.item1').html(drawUsers('Iedereen', data['users']));
+
+            // Draw actual winners
+            $('.item4').html(drawUsers('Echte rijken', data['actualBest']));
+
+            // Draw theoretical winners
+            $('.item6').html(drawUsers('Op papier rijk', data['theoryBest']));
+
+            // Draw exchanges
+            $('.item2').html('<span class="red">' + data['red']['current'] + "</span>")
+            $('.item3').html('<span class="green">' + data['green']['current'] + "</span>")
+
+            // Draw graphs
+
+            // Reload
+            setTimeout(function () {
+                draw();
+            }, 3000);
+        });
+    }
+
+    draw();
+
+
+</script>
+</html>
