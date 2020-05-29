@@ -3,12 +3,10 @@ package nl.spijkerman.wangaponzi.service
 import nl.spijkerman.wangaponzi.model.*
 import nl.spijkerman.wangaponzi.model.Rate.Type.GREEN
 import nl.spijkerman.wangaponzi.model.Rate.Type.RED
-import org.springframework.stereotype.Service
 import nl.spijkerman.wangaponzi.repository.TransactionRepository
-import java.lang.System.currentTimeMillis
+import org.springframework.stereotype.Service
 import java.time.LocalTime
 import kotlin.streams.toList
-
 
 
 @Service

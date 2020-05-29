@@ -12,7 +12,7 @@ class UserService(private val transactionService: TransactionService,
 
     private fun hasSufficientFunds(n: Number, delta: Number): Boolean {
         if (delta.toDouble() >= 0) return true
-        else if (n.toDouble() + delta.toDouble() > 0) return true
+        if (n.toDouble() + delta.toDouble() >= 0) return true
         return false
     }
 
